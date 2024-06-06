@@ -32,3 +32,16 @@ if match:
 with open(manifest_out_file, 'w') as f:
     json.dump(manifest_out, f, indent=2, separators=(',', ': '), sort_keys=True)
     f.write('\n')
+
+# create update xml
+update_xml = '''<?xml version='1.0' encoding='UTF-8'?>
+<gupdate xmlns='http://www.google.com/update2/response' protocol='2.0'>
+  <app appid='{appid}'>
+    <updatecheck codebase='https://github.com/gorhill/uBlock/releases/download/{version}/download/uBlock0_{version}.chromium.crx' version='{version}' status='ok' />
+  </app>
+</gupdate>
+'''.format(**{'appid': 'epcnnfbjfcgphgdmggkamkmgojdagdnn', 'version': version})
+
+update_xml_file = os.path.join(build_dir, 'update.chromium.xml')
+with open(update_xml_file, 'w') as f:
+    f.write(update_xml)
